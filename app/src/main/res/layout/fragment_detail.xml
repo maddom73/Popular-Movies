@@ -1,0 +1,102 @@
+<!-- Master layout. -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_gravity="left"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        >
+
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="@color/material_blue_300"
+        android:orientation="vertical">
+        <!-- Header: Title -->
+        <TextView
+            android:fontFamily="sans-serif-condensed"
+            android:id="@+id/detail_title_textview"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/black"
+            android:padding="16dp"
+            android:textSize="36sp" />
+    </LinearLayout>
+
+
+        <!-- Main content -->
+        <LinearLayout
+            android:gravity="left"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:padding="16dp" >
+
+            <LinearLayout
+                android:gravity="left"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/detail_poster"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:minHeight="180dp"
+                    android:minWidth="120dp"
+                    android:scaleType="centerCrop"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center_horizontal"
+                android:layout_gravity="center"
+                android:layout_marginLeft="30dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:fontFamily="sans-serif-condensed"
+                    android:id="@+id/detail_release_date_textview"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/detail_rating_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textColor="@color/grey_700" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Humidity, wind, pressure -->
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/detail_synopsis_textview"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textAppearance="?android:textAppearanceLarge" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
