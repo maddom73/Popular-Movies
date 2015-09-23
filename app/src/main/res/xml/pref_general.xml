@@ -7,15 +7,13 @@
     <ListPreference
         android:title="@string/pref_order_label"
         android:key="@string/pref_order_key"
-        android:defaultValue="@string/pref_order_popular"
+        android:defaultValue="@string/pref_order_rated"
         android:entryValues="@array/pref_order_values"
         android:entries="@array/pref_order_options" />
 
     <CheckBoxPreference
-        android:title="@string/pref_enable_notifications_label"
-        android:key="@string/pref_enable_notifications_key"
-        android:summaryOff="@string/pref_enable_notifications_false"
-        android:summaryOn="@string/pref_enable_notifications_true"
-        android:defaultValue="@string/pref_enable_notifications_default" />
+        android:title="@string/pref_enable_favorite_label"
+        android:key="@string/pref_enable_favorite_key"
+        android:defaultValue="@string/pref_enable_favorite_default" />
 
 </PreferenceScreen>

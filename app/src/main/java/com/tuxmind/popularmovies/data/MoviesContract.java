@@ -16,11 +16,64 @@ public class MoviesContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final String PATH_MOVIE = "movie";
-    public static final String PATH_SORT_ORDER = "sort_order";
+    public static final String PATH_FAVORITE = "favorite";
+
+    public static long normalizeDate(long startDate) {
+        // normalize the start date to the beginning of the (UTC) day
+        Time time = new Time();
+        time.set(startDate);
+        int julianDay = Time.getJulianDay(startDate, time.gmtoff);
+        return time.setJulianDay(julianDay);
+    }
+
+    public static final class FavoriteEntry implements BaseColumns {
+
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_FAVORITE).build();
+
+        public static final String CONTENT_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_FAVORITE;
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_FAVORITE;
+
+
+        public static final String TABLE_NAME = "favorite";
+        public static final String COLUMN_DATE = "date_time";
+        public static final String COLUMN_RELEASE_DATE = "release_date";
+        public static final String COLUMN_MOVIE_ID = "movie_id";
+
+        public static final String COLUMN_MOVIE_POSTER = "poster_path";
+        public static final String COLUMN_SYNOSIS = "overview";
+
+        public static final String COLUMN_ORIGINAL_TITLE = "original_title";
+        public static final String COLUMN_USER_RATING = "vote_average";
 
 
 
-    /* Inner class that defines the table contents of the weather table */
+        public static Uri buildFavoriteUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+
+        }
+        public static Uri buildFavoriteMovieUri() {
+            return CONTENT_URI.buildUpon().build();
+        }
+
+        public static Uri buildFavoriteWithDate(long date) {
+            return CONTENT_URI.buildUpon()
+                    .appendPath(Long.toString(normalizeDate(date))).build();
+        }
+        public static Uri buildFavoriteId(String favoriteId) {
+            return CONTENT_URI.buildUpon().appendPath(favoriteId).build();
+        }
+        public static String getFavoriteIdFromUriDate (Uri uri) {
+            return uri.getPathSegments().get(1);
+        }
+
+        public static long getDateFromUri(Uri uri) {
+            return Long.parseLong(uri.getPathSegments().get(2));
+        }
+    }
+
     public static final class MovieEntry implements BaseColumns {
 
         public static final Uri CONTENT_URI =
@@ -34,11 +87,11 @@ public class MoviesContract {
 
         public static final String TABLE_NAME = "movie";
 
-        // Date, stored as long in milliseconds since the epoch
+
+
         public static final String COLUMN_DATE = "date_time";
         public static final String COLUMN_RELEASE_DATE = "release_date";
-        // Weather id as returned by API, to identify the icon to be used
-        public static final String COLUMN_MOVIE_ID = "id";
+        public static final String COLUMN_MOVIE_ID = "movie_id";
 
         public static final String COLUMN_MOVIE_POSTER = "poster_path";
         public static final String COLUMN_SYNOSIS = "overview";
@@ -46,13 +99,22 @@ public class MoviesContract {
         public static final String COLUMN_ORIGINAL_TITLE = "original_title";
         public static final String COLUMN_USER_RATING = "vote_average";
 
+
         public static Uri buildMovieUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
         public static Uri buildMovieSort(String sortSetting) {
             return CONTENT_URI.buildUpon().appendPath(sortSetting).build();
         }
-        public static String getSortSettingFromUri(Uri uri) {
+
+
+
+        public static Uri buildMovieSortDate(String sortSetting, long date) {
+            return CONTENT_URI.buildUpon().appendPath(sortSetting)
+                    .appendPath(Long.toString(normalizeDate(date))).build();
+        }
+        public static String getFavoriteFromUri(Uri uri) {
+
             return uri.getPathSegments().get(1);
         }
 

@@ -1,74 +1,72 @@
-<!-- Master layout. -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.tuxmind.popularmovies.VerticalScrollview xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        >
-
-    <LinearLayout
         android:gravity="center_vertical"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:background="@color/material_blue_300"
         android:orientation="vertical">
-        <!-- Header: Title -->
-        <TextView
-            android:fontFamily="sans-serif-condensed"
-            android:id="@+id/detail_title_textview"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:textColor="@color/black"
-            android:padding="16dp"
-            android:textSize="36sp" />
-    </LinearLayout>
+            android:layout_gravity="center"
+            android:background="@color/material_blue_300"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+            <!-- Header: Title -->
+            <TextView
+                android:id="@+id/detail_title_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:padding="16dp"
+                android:textColor="@color/black"
+                android:textSize="36sp" />
+        </LinearLayout>
 
 
         <!-- Main content -->
         <LinearLayout
-            android:gravity="left"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="16dp"
-            android:layout_width="match_parent"
+            android:gravity="left"
             android:orientation="horizontal"
-            android:padding="16dp" >
+            android:padding="16dp">
 
             <LinearLayout
-                android:gravity="left"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
                 android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/detail_poster"
-                    android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
                     android:minHeight="180dp"
                     android:minWidth="120dp"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop" />
             </LinearLayout>
 
             <LinearLayout
-                android:gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="30dp"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
+                android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:padding="16dp">
 
                 <TextView
-                    android:fontFamily="sans-serif-condensed"
                     android:id="@+id/detail_release_date_textview"
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
                     android:textColor="@color/black"
                     android:textSize="24sp" />
 
@@ -78,25 +76,59 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textColor="@color/grey_700" />
+
+                <ImageButton android:id="@+id/favorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:src="@drawable/btn_star_selector"
+                    android:background="#00ffffff"
+                    />
+
+                <TextView
+                    android:id="@+id/favorite_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/grey_700"
+                    android:text="@string/markasfavorite"
+                    android:layout_marginLeft="5dp"
+                     />
             </LinearLayout>
+
+
         </LinearLayout>
 
-        <!-- Humidity, wind, pressure -->
         <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginRight="0dp"
-            android:layout_marginTop="16dp"
-            android:layout_width="match_parent"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/detail_synopsis_textview"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:textAppearance="?android:textAppearanceLarge" />
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:textAppearance" />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="0dp"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/review_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:text="@string/review_link"
+                android:textColor="@color/text_color"
+                android:clickable="true"/>
 
 
         </LinearLayout>
     </LinearLayout>
-</ScrollView>
+</com.tuxmind.popularmovies.VerticalScrollview>

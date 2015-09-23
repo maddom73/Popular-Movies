@@ -20,5 +20,15 @@ public class Utility {
         return prefs.getString(context.getString(R.string.pref_sort_key),
                 context.getString(R.string.pref_sort_default));
     }
+
+    public static boolean getFavorite(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String displayFavoriteKey = context.getString(R.string.pref_enable_favorite_key);
+        boolean displayFavorite = prefs.getBoolean(displayFavoriteKey,
+                Boolean.parseBoolean(context.getString(R.string.pref_enable_favorite_default)));
+
+        return displayFavorite;
+    }
+
 }
 

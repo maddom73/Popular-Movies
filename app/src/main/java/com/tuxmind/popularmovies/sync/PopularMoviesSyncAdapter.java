@@ -2,37 +2,28 @@ package com.tuxmind.popularmovies.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.Activity;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
-import android.content.res.Resources;
+
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.app.TaskStackBuilder;
-import android.support.v4.app.NotificationCompat;
 import android.text.format.Time;
 import android.util.Log;
 
-import com.squareup.picasso.Picasso;
+import com.tuxmind.popularmovies.DetailFragment;
 import com.tuxmind.popularmovies.DeveloperKey;
-import com.tuxmind.popularmovies.MainActivity;
 import com.tuxmind.popularmovies.R;
 import com.tuxmind.popularmovies.Utility;
 import com.tuxmind.popularmovies.data.MoviesContract;
+import com.tuxmind.popularmovies.data.MoviesDbHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,15 +49,10 @@ public class PopularMoviesSyncAdapter extends AbstractThreadedSyncAdapter {
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
     private static final int MOVIE_NOTIFICATION_ID = 3004;
 
-
     private static final String[] NOTIFY_MOVIES_PROJECTION = new String[]{
             MoviesContract.MovieEntry.COLUMN_MOVIE_ID,
             MoviesContract.MovieEntry.COLUMN_MOVIE_POSTER,
     };
-
-    // these indices must match the projection
-    private static final int INDEX_MOVIE_ID = 0;
-    private static final int INDEX_MOVIE_POSTER = 1;
 
     public PopularMoviesSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -74,6 +60,7 @@ public class PopularMoviesSyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
+
         Log.d(LOG_TAG, "Starting sync");
         String sortQuery = Utility.getPreferredSort(getContext());
 
@@ -82,6 +69,7 @@ public class PopularMoviesSyncAdapter extends AbstractThreadedSyncAdapter {
 
         String movieJsonStr = null;
         String apiKey = DeveloperKey.DEVELOPER_KEY;
+
 
         try {
 
@@ -98,7 +86,7 @@ public class PopularMoviesSyncAdapter extends AbstractThreadedSyncAdapter {
 
             URL url = new URL(builtUri.toString());
 
-            System.out.println("URL: " + url );
+            System.out.println("URL: " + url);
             // Create the request to OpenWeatherMap, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
@@ -114,7 +102,7 @@ public class PopularMoviesSyncAdapter extends AbstractThreadedSyncAdapter {
             reader = new BufferedReader(new InputStreamReader(inputStream));
 
             String line;
-              while ((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
                 // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
                 // But it does make debugging a *lot* easier if you print out the completed
                 // buffer for debugging.
@@ -126,7 +114,7 @@ public class PopularMoviesSyncAdapter extends AbstractThreadedSyncAdapter {
                 return;
             }
             movieJsonStr = buffer.toString();
-            System.out.println("movieJsonStr: " + movieJsonStr );
+            System.out.println("movieJsonStr: " + movieJsonStr);
             getMovieDataFromJson(movieJsonStr);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error ", e);
@@ -195,6 +183,7 @@ public class PopularMoviesSyncAdapter extends AbstractThreadedSyncAdapter {
                 releaseDate = mMovie.getString(RELEASE_DATE);
                 posterPath = mMovie.getString(POSTER_PATH);
                 ContentValues movieValues = new ContentValues();
+
                 movieValues.put(MoviesContract.MovieEntry.COLUMN_MOVIE_ID, movieId);
                 movieValues.put(MoviesContract.MovieEntry.COLUMN_DATE, dateTime);
                 movieValues.put(MoviesContract.MovieEntry.COLUMN_RELEASE_DATE, releaseDate);
@@ -215,9 +204,8 @@ public class PopularMoviesSyncAdapter extends AbstractThreadedSyncAdapter {
                 // delete old data so we don't build up an endless history
                 getContext().getContentResolver().delete(MoviesContract.MovieEntry.CONTENT_URI,
                         MoviesContract.MovieEntry.COLUMN_DATE + " <= ?",
-                        new String[]{Long.toString(dayTime.setJulianDay(julianStartDay-1))});
+                        new String[]{Long.toString(dayTime.setJulianDay(julianStartDay - 1))});
 
-           //     notifyMovie();
             }
 
             Log.d(LOG_TAG, "Sync Complete. " + cVVector.size() + " Inserted");
@@ -226,9 +214,13 @@ public class PopularMoviesSyncAdapter extends AbstractThreadedSyncAdapter {
             Log.e(LOG_TAG, e.getMessage(), e);
             e.printStackTrace();
         }
+
+
     }
 
- /*   private void notifyMovie() {
+
+
+  /*  private void notifyMovie() {
         Context context = getContext();
         //checking the last update and notify if it' the first of the day
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -330,7 +322,7 @@ public class PopularMoviesSyncAdapter extends AbstractThreadedSyncAdapter {
                 context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
 
         // If the password doesn't exist, the account doesn't exist
-        if ( null == accountManager.getPassword(newAccount) ) {
+        if (null == accountManager.getPassword(newAccount)) {
 
             if (!accountManager.addAccountExplicitly(newAccount, "", null)) {
                 return null;
