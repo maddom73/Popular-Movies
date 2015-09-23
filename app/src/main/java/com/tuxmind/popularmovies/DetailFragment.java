@@ -195,10 +195,13 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     }
 
     private Intent createShareMovieIntent() {
+        Trailer currentEntry = adapter.getItem(0);
+        System.out.println("Posizione: " + currentEntry);
+        videoId = currentEntry.trailerId;
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, oTitle + MOVIES_SHARE_HASHTAG);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "http://www.youtube.com/watch?v=" + videoId);
         return shareIntent;
     }
 
